@@ -1,10 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Inter&display=swap');
 
-
-
-
-
-
 body {
     background-image: url('../images/background1.jpg');
     height: 100vh;
@@ -13,6 +8,8 @@ body {
 body,
   html {
     height: 100%;
+   
+  
 }
 
 .login {
@@ -37,7 +34,8 @@ body,
     align-items: center;
     display: flex;
     justify-content: center;
-    height: 10%;
+    height: 100%;
+    width: 100%;
     
   }
 
@@ -46,6 +44,44 @@ body,
     width: 160px;
     height: auto;
 }
+
+.home-logo-landing {
+    width: 160px;
+    height: auto;
+    margin-top: -5%;
+
+}
+
+
+.homepage-label {
+    text-align: center;
+    font-size: 12px;
+}
+
+.general-background {
+    
+    border-radius: 10px;
+    background-color: white;
+   
+    padding: 20px 20px 20px 20px;
+    margin: 20px 20px;
+    
+    height: 95%;
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    right: 0;
+    
+   
+    
+    font-family: Inter;
+}
+
+
+
+
+
+
 
 .title {
     font-size: 22px;

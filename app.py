@@ -11,5 +11,11 @@ def index():
 def landing():
     return render_template('landing.html')
 
+@app.route('/usermanagement')
+def usermanagement():
+    return render_template('usermanagement.html')
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
