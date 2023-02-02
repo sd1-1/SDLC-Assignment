@@ -16,6 +16,11 @@ def usermanagement():
     return render_template('usermanagement.html')
 
 
+@app.route('/quizresults')
+def quizresults():
+    return render_template('quizresults.html')
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

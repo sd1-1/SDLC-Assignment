@@ -52,37 +52,46 @@ body,
 
 }
 
+.home-logo-general {
+    width: 160px;
+    height: auto;
+    
 
+}
 .homepage-label {
     text-align: center;
-    font-size: 12px;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 .general-background {
     
     border-radius: 10px;
     background-color: white;
-   
     padding: 20px 20px 20px 20px;
     margin: 20px 20px;
-    
     height: 95%;
     box-sizing: border-box;
     position: absolute;
     left: 0;
     right: 0;
-    
-   
-    
     font-family: Inter;
+    
 }
 
-
-
-
-
-
-
+.backlandingbutton {  
+    color: #4CBAE9 ;
+    font-weight: 700;
+    margin: 0 auto;
+    text-decoration: none;
+    font-size: 20px;
+    position: absolute;
+    top: 19%;
+    left: 40px;
+    
+    
+   
+}
 .title {
     font-size: 22px;
 }
@@ -96,4 +105,21 @@ body,
     text-align: right;
 
 
+}
+.general-background img {
+    margin-right: 15px;
+    float: left;
+}
+
+
+.general-background h3 {
+    margin-left: 20px;
+    display: block;
+    margin: 50px 0 0 0;
+}
+
+.sibuttons {
+    text-align: center;
+    margin-top: -40px;
+    margin-right: 180px;
 }
