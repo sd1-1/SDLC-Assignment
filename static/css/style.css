@@ -1,4 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Inter&display=swap');
+@media (-webkit-device-pixel-ratio: 1.25) {
+    * {
+      zoom: 0.8;
+    }
+  }
+
+
+
 
 body {
     background-image: url('../images/background1.jpg');
@@ -82,12 +90,9 @@ body,
 .backlandingbutton {  
     color: #4CBAE9 ;
     font-weight: 700;
-    margin: 0 auto;
+  
     text-decoration: none;
-    font-size: 20px;
-    position: absolute;
-    top: 19%;
-    left: 40px;
+    
     
     
    
@@ -106,20 +111,13 @@ body,
 
 
 }
-.general-background img {
-    margin-right: 15px;
-    float: left;
-}
 
 
-.general-background h3 {
-    margin-left: 20px;
-    display: block;
-    margin: 50px 0 0 0;
-}
+
+
 
 .sibuttons {
     text-align: center;
-    margin-top: -40px;
-    margin-right: 180px;
+   
+    
 }
