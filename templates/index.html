@@ -14,14 +14,16 @@
 <body>
     <div class="container">
         <div class="login">
+
+          
             <img class="home-logo" src="../static/images/home_logo.PNG" >
     
             <strong class="title">Account Login </strong>
             <p class="login-text">Please Log in to continue</p>
-    
+            <form action="{{ url_for('login')}}" method="post"> 
             <div>
                 <p>Email</p>
-                <input/>
+                <input type="text" name="useremail"/>
             </div>
             <br/>
             <div>
@@ -30,9 +32,10 @@
             </div>
             <div>
             <div class="login-button">
-                <a href="/landing" class="btn btn-primary w-100"  >Log In</a>
+                <input class="btn btn-primary w-100" type="submit"  value="Log In"/>
     
-            </div>    
+            </div>  
+        </form>      
             
              
     

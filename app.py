@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,redirect,request
 
 app = Flask(__name__)
 
@@ -19,6 +19,15 @@ def usermanagement():
 @app.route('/quizresults')
 def quizresults():
     return render_template('quizresults.html')
+
+
+
+@app.route('/login', methods=['POST'])
+def login():
+
+    email = request.form['useremail']
+    print(email)
+    return redirect("landing",code=302)
 
 
 
