@@ -1,6 +1,13 @@
 from flask import Flask, render_template,redirect,request
+from pymongo import MongoClient
+from user import models
+client = MongoClient("mongodb+srv://sdlcadmin:Apples123@cluster0.euazjbc.mongodb.net/?retryWrites=true&w=majority")
+db = client.get_database("sdlc_db")
 
 app = Flask(__name__)
+
+
+
 
 @app.route('/')
 def index():
@@ -20,14 +27,17 @@ def usermanagement():
 def quizresults():
     return render_template('quizresults.html')
 
-
-
 @app.route('/login', methods=['POST'])
 def login():
+    user = models.User()
+    return user.login()
 
-    email = request.form['useremail']
-    print(email)
-    return redirect("landing",code=302)
+    
+@app.route('/viewdata')
+def viewdata():
+    user = models.User()
+    return user.viewdata()
+    
 
 
 
