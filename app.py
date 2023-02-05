@@ -23,12 +23,20 @@ def landing():
 
 @app.route('/usermanagement')
 def usermanagement():
-    return render_template('usermanagement.html')
+    if 'loggedIn' in session and session['loggedIn']:
+        return render_template('usermanagement.html')
+    else:
+        return redirect("/")
+    
 
 
 @app.route('/quizresults')
 def quizresults():
-    return render_template('quizresults.html')
+    if 'loggedIn' in session and session['loggedIn']:
+        return render_template('quizresults.html')
+    else:
+        return redirect("/")
+    
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -44,10 +52,15 @@ def login():
     
 @app.route('/viewdata')
 def viewdata():
-    cursor = db.sdlc_records.find()
-    list_cursor = list(cursor)
-    json_data = dumps(list_cursor)
-    return json_data
+    if 'loggedIn' in session and session['loggedIn']:
+        cursor = db.sdlc_records.find()
+        list_cursor = list(cursor)
+        json_data = dumps(list_cursor)
+
+        return json_data
+    else:
+        return redirect("/")
+    
 
     
 
