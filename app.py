@@ -93,5 +93,24 @@ def signout():
     session["loggedIn"] = False
     return redirect("/")
 
+
+@app.route('/updateexistingdata', methods=['POST'])
+def updateexistingdata():
+    if 'loggedIn' in session and session['loggedIn']:
+        print(request.files)
+        data = request.files['files2']
+        
+        
+        info = json.loads(data.read())
+       # matching_record = db.users_records.find_one({
+        #    "student_id" : info["student_id"]
+        #})
+        return info
+    else:
+        return redirect("/")
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)

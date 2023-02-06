@@ -22,23 +22,23 @@
             <div class="sibuttons">
 
 
-              <form style="display: inline;" action={{ url_for('uploadnewdata') }} method="POST" enctype="multipart/form-data">
+              <form style="display: flex;" action={{ url_for('uploadnewdata') }} method="POST" enctype="multipart/form-data">
                 <label for="files" class="btn btn-primary me-1">Upload New Data</label>
-                <input id="files" style="visibility:hidden;" type="file" name="file">
+                <input id="files" style="visibility:hidden;width: 0;" type="file" name="file1"/>
                 <input type="submit" class="btn btn-primary me-1" />
-                
-                
-
 
               </form>
+              
+              <form style="display: flex;" action={{ url_for('updateexistingdata') }} method="POST" enctype="multipart/form-data">
+                <label for="files2" class="btn btn-primary me-1">Update Existing Data</label>
+                <input id="files2" style="visibility:hidden;width: 0;" type="file" name="files2">
+                <input type="submit" class="btn btn-primary me-1" />
+              </form>
 
-              <form style="display: inline;" action={{ url_for('viewdata') }} target="_blank" >
+              <form style="display: flex;" action={{ url_for('viewdata') }} target="_blank" >
                 <input class="btn btn-primary me-1"  type="submit" value="View Raw Data">
               </form>
 
-              <form style="display: inline;">
-                <input class="btn btn-primary me-1" type="submit" value="Update Existing Data">
-              </form>
 
               <form style="display: inline;">
                 <input class="btn btn-primary me-1" type="submit" value="Delete Data">

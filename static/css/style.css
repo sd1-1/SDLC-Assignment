@@ -113,8 +113,9 @@ body,
 }
 
 .sibuttons {
-    text-align: center;
-    position: relative;
-    top: -150px;
-    
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;    
 }
