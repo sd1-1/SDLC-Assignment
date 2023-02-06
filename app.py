@@ -1,5 +1,6 @@
 from flask import Flask, render_template,redirect,request, session,jsonify
 from pymongo import MongoClient
+import json
 from bson.json_util import dumps
 client = MongoClient("mongodb+srv://sdlcadmin:Apples123@cluster0.euazjbc.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database("sdlc_db")
@@ -71,12 +72,14 @@ def viewdata():
 def uploadnewdata():
     
     if 'loggedIn' in session and session['loggedIn']:
-        data = request.form.get("file")
-        db.sdlc_records.delete_many({})       
-        
-        return data
-
-        
+        data = request.files['file']
+        info = json.loads(data.read())
+        db.sdlc_records.delete_many({})
+        for student_data in info:      
+            db.sdlc_records.insert_one(
+                student_data
+            ) 
+        return "Success"
 
        
     else:

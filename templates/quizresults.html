@@ -22,7 +22,7 @@
             <div class="sibuttons">
 
 
-              <form style="display: inline;" action={{ url_for('uploadnewdata') }} method="POST">
+              <form style="display: inline;" action={{ url_for('uploadnewdata') }} method="POST" enctype="multipart/form-data">
                 <label for="files" class="btn btn-primary me-1">Upload New Data</label>
                 <input id="files" style="visibility:hidden;" type="file" name="file">
                 <input type="submit" class="btn btn-primary me-1" />
