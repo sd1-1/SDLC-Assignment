@@ -1,4 +1,4 @@
-from flask import Flask, render_template,redirect,request, session
+from flask import Flask, render_template,redirect,request, session,jsonify
 from pymongo import MongoClient
 from bson.json_util import dumps
 client = MongoClient("mongodb+srv://sdlcadmin:Apples123@cluster0.euazjbc.mongodb.net/?retryWrites=true&w=majority")
@@ -10,7 +10,10 @@ app.secret_key = "abc123"
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    if 'loggedIn' in session and session['loggedIn']:
+        return render_template('landing.html')
+    else:   
+        return render_template('index.html')
 
 
 @app.route('/landing')
@@ -63,6 +66,24 @@ def viewdata():
     
 
     
+
+@app.route('/uploadnewdata',methods=['POST'])
+def uploadnewdata():
+    
+    if 'loggedIn' in session and session['loggedIn']:
+        data = request.form.get("file")
+        db.sdlc_records.delete_many({})       
+        
+        return data
+
+        
+
+       
+    else:
+        return redirect("/")
+    
+
+
 
 @app.route('/signout')
 def signout():

@@ -20,10 +20,34 @@
             <h3>Quiz Results</h3>
             <a href="/landing" class="bi bi-arrow-left backlandingbutton">Back to landing page</a>
             <div class="sibuttons">
-                <a class="btn btn-primary me-1"     href="#" role="button" >Upload New Data</a>
-                <a class="btn btn-primary me-1" href={{ url_for('viewdata') }} role="button" target="_blank" >View Raw Data</a>
-                <a class="btn btn-primary me-1" href="#" role="button" onclick='myFunction()' >Update Existing Data</a>
-                <a class="btn btn-primary me-1" href="#" role="button" >Delete Data</a>
+
+
+              <form style="display: inline;" action={{ url_for('uploadnewdata') }} method="POST">
+                <label for="files" class="btn btn-primary me-1">Upload New Data</label>
+                <input id="files" style="visibility:hidden;" type="file" name="file">
+                <input type="submit" class="btn btn-primary me-1" />
+                
+                
+
+
+              </form>
+
+              <form style="display: inline;" action={{ url_for('viewdata') }} target="_blank" >
+                <input class="btn btn-primary me-1"  type="submit" value="View Raw Data">
+              </form>
+
+              <form style="display: inline;">
+                <input class="btn btn-primary me-1" type="submit" value="Update Existing Data">
+              </form>
+
+              <form style="display: inline;">
+                <input class="btn btn-primary me-1" type="submit" value="Delete Data">
+              </form>
+
+
+
+
+
 
             </div>
             <div class="dropdown">
