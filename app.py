@@ -2,6 +2,9 @@ from flask import Flask, render_template,redirect,request, session,jsonify
 from pymongo import MongoClient
 import json
 from bson.json_util import dumps
+from hashlib import sha256
+import numpy as np
+
 client = MongoClient("mongodb+srv://sdlcadmin:Apples123@cluster0.euazjbc.mongodb.net/?retryWrites=true&w=majority")
 db = client.get_database("sdlc_db")
 
@@ -34,10 +37,31 @@ def usermanagement():
     
 
 
-@app.route('/quizresults')
+@app.route('/quizresults',methods=['POST'])
 def quizresults():
     if 'loggedIn' in session and session['loggedIn']:
-        return render_template('quizresults.html')
+
+
+        module = request.form.get("module")
+        print(module)
+
+
+        marks_list = []
+        for document in db.sdlc_records.find({},{ "_id": 0,"results": 1 }):
+            results = document['results']
+            print(results)
+            for result in results:
+                if result['module'] == module:
+
+                    marks_list.append(result['quiz_mark'])
+                
+       
+        std_quiz = np.std(marks_list)
+
+        
+        average_marks = round(sum(marks_list) / len(marks_list))
+        
+        return render_template('quizresults.html',mean_results=average_marks,standard_deviation=round(std_quiz))
     else:
         return redirect("/")
     
@@ -47,7 +71,10 @@ def login():
     matching_record = db.users_records.find_one({
         "email": request.form.get("useremail")
     })
-    if matching_record and request.form.get("userpassword") == matching_record["password"]:
+
+    password_hash = sha256(request.form.get("userpassword").encode('utf-8')).hexdigest()
+    
+    if matching_record and password_hash == matching_record["password"]:
 
         session['loggedIn'] = True
         return redirect("landing")
@@ -132,6 +159,10 @@ def deletedata():
         return "successfully deleted data, please press back"
     else:   
         return redirect("/")
+
+
+
+    
 
 
 

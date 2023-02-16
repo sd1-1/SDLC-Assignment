@@ -47,27 +47,32 @@
                 <input class="btn btn-primary me-1"  type="submit" value="View Raw Data">
               </form>
 
+              
 
-           
-
-
-
-
-
+        
             </div>
+            <form action="{{ url_for('quizresults')}}" method="post"> 
+            
             <div class="dropdown">
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                   Select Module
                 </a>
-              
+                
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <li><a class="dropdown-item" href="#">WM160</a></li>
-                  <li><a class="dropdown-item" href="#">WM161</a></li>
-                  <li><a class="dropdown-item" href="#">WM162</a></li>
-                  <li><a class="dropdown-item" href="#">WM163</a></li>
+                  <li><input class="dropdown-item" href="#" type="submit" name="module"  value="WM160"/></li>
+                  <li><input class="dropdown-item" href="#" type="submit" name="module"  value="WM161"/></li>
+                  <li><input class="dropdown-item" href="#" type="submit" name="module"  value="WM162"/></li>
+                  <li><input class="dropdown-item" href="#" type="submit" name="module"  value="WM163"/></li>
                 </ul>
               </div>
-            
+            </form>
+              <div class="quiz-results-info">
+                <h4>Mean Quiz Results: {{ mean_results }}</h4>
+                <h4>Standard Deviation: {{ standard_deviation }}</h4>
+
+
+              </div>
+             
 
       
 

@@ -119,3 +119,10 @@ body,
     padding-bottom: 10px;
     padding-top: 10px;    
 }
+
+.quiz-results-info {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+
+}
