@@ -14,15 +14,15 @@ app.secret_key = "abc123"
 
 @app.route('/')
 def index():
-    if 'loggedIn' in session and session['loggedIn']:
+    if 'loggedIn' in session and session['loggedIn']: #check whether user is already logged in using session
         return render_template('landing.html')
     else:   
-        return render_template('index.html')
+        return render_template('index.html')  #go back to the login page if they are not logged in
 
 
 @app.route('/landing')
 def landing():
-    print(session)
+    
     if 'loggedIn' in session and session['loggedIn']:
         return render_template('landing.html')
     else:
@@ -37,26 +37,29 @@ def usermanagement():
     
 
 
-@app.route('/quizresults',methods=['POST'])
+@app.route('/quizresults',methods=['POST','GET'])
 def quizresults():
     if 'loggedIn' in session and session['loggedIn']:
 
 
-        module = request.form.get("module")
+
+        module = request.form.get("module")  #get the form data that has been submitted
+        if not module:
+                return render_template('quizresults.html')  
         print(module)
 
 
         marks_list = []
-        for document in db.sdlc_records.find({},{ "_id": 0,"results": 1 }):
+        for document in db.sdlc_records.find({},{ "_id": 0,"results": 1 }): #get the results from the sdlc collection with all the data
             results = document['results']
             print(results)
             for result in results:
                 if result['module'] == module:
 
-                    marks_list.append(result['quiz_mark'])
+                    marks_list.append(result['quiz_mark'])  
                 
        
-        std_quiz = np.std(marks_list)
+        std_quiz = np.std(marks_list) 
 
         
         average_marks = round(sum(marks_list) / len(marks_list))
@@ -69,10 +72,10 @@ def quizresults():
 @app.route('/login', methods=['POST'])
 def login():
     matching_record = db.users_records.find_one({
-        "email": request.form.get("useremail")
+        "email": request.form.get("useremail")  
     })
 
-    password_hash = sha256(request.form.get("userpassword").encode('utf-8')).hexdigest()
+    password_hash = sha256(request.form.get("userpassword").encode('utf-8')).hexdigest()  #hashing the password so it can be compared with the hash in the database
     
     if matching_record and password_hash == matching_record["password"]:
 
@@ -84,7 +87,7 @@ def login():
 @app.route('/viewdata')
 def viewdata():
     if 'loggedIn' in session and session['loggedIn']:
-        cursor = db.sdlc_records.find()
+        cursor = db.sdlc_records.find() #gets all data in the sdlc_records collection
         list_cursor = list(cursor)
         json_data = dumps(list_cursor)
 
@@ -99,9 +102,9 @@ def viewdata():
 def uploadnewdata():
     
     if 'loggedIn' in session and session['loggedIn']:
-        data = request.files['file']
+        data = request.files['file'] 
         info = json.loads(data.read())
-        db.sdlc_records.delete_many({})
+        db.sdlc_records.delete_many({}) #delete everything before looping through each document and inserting it into the database
         for student_data in info:      
             db.sdlc_records.insert_one(
                 student_data
@@ -117,7 +120,7 @@ def uploadnewdata():
 
 @app.route('/signout')
 def signout():
-    session["loggedIn"] = False
+    session["loggedIn"] = False #change session status to false when the signout button is clicked
     return redirect("/")
 
 
@@ -131,7 +134,7 @@ def updateexistingdata():
         
         info = json.loads(data.read())
 
-        filter = { 'student_id': info['student_id'] }
+        filter = { 'student_id': info['student_id'] } #This enables us to update the matching document with the same student_id as inputted in the json
         
         newvalues = info 
         db.sdlc_records.replace_one(filter, newvalues)
@@ -163,10 +166,6 @@ def deletedata():
 
 
     
-
-
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)
