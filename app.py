@@ -28,13 +28,7 @@ def landing():
     else:
         return redirect("/")
 
-@app.route('/usermanagement')
-def usermanagement():
-    if 'loggedIn' in session and session['loggedIn']:
-        return render_template('usermanagement.html')
-    else:
-        return redirect("/")
-    
+
 
 
 @app.route('/quizresults',methods=['POST','GET'])
