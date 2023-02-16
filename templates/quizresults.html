@@ -21,7 +21,7 @@
             <a href="/landing" class="bi bi-arrow-left backlandingbutton">Back to landing page</a>
             <div class="sibuttons">
 
-
+              <!-- Here a form is used for each function so that a POST request can be used after submitting, also generating a URL -->
               <form style="display: flex;" action={{ url_for('uploadnewdata') }} method="POST" enctype="multipart/form-data">
                 <label for="files" class="btn btn-primary me-1">Upload New Data</label>
                 <input id="files" style="visibility:hidden;width: 0;" type="file" name="file"/>
@@ -51,6 +51,7 @@
 
         
             </div>
+            <!-- Anothe form is used for the dropdown linksm where the selected module is posted to the backend -->
             <form action="{{ url_for('quizresults')}}" method="post" enctype="multipart/form-data"> 
             
             <div class="dropdown">

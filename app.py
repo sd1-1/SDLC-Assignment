@@ -6,10 +6,10 @@ from hashlib import sha256
 import numpy as np
 
 client = MongoClient("mongodb+srv://sdlcadmin:Apples123@cluster0.euazjbc.mongodb.net/?retryWrites=true&w=majority")
-db = client.get_database("sdlc_db")
+db = client.get_database("sdlc_db") #connection to database as the admin
 
 app = Flask(__name__)
-app.secret_key = "abc123"
+app.secret_key = "abc123" #required for session and used to encrpyt the cookies
 
 
 @app.route('/')
