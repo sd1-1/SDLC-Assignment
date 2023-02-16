@@ -9,14 +9,19 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.2/chart.min.js" integrity="sha512-zjlf0U0eJmSo1Le4/zcZI51ks5SjuQXkU0yOdsOBubjSmio9iCUp8XPLkEAADZNBdR9crRy3cniZ65LF2w8sRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">    <link rel="stylesheet" href="../static/css/style.css">
-
 </head>
 
 <body>
     <div class="container">
+
         <div class="general-background">
-            <img class="home-logo-general" src="../static/images/home_logo.PNG" >
+
+
+            <div class="main-wrapper">
+              <img class="home-logo-general" src="../static/images/home_logo.PNG" >
+
             <h3>Quiz Results</h3>
             <a href="/landing" class="bi bi-arrow-left backlandingbutton">Back to landing page</a>
             <div class="sibuttons">
@@ -75,9 +80,31 @@
               </div>
              
 
-      
+            </div>
 
 
+            <div style="height: 500px; padding-left: 100px; padding-top: 20px;">
+              <canvas id="scatter" width="720" height="480" ></canvas>
+            </div>
+            <script>
+              var context = document.getElementById("scatter").getContext("2d");
+              var scatterGraph = new Chart(context, {
+                type:"scatter",
+                responsive: true,
+                maintainAspectRatio: false,
+                data: {
+                  datasets: [{
+                    label: "Module Marks and Quiz Results",
+                    data: {{ data | safe }},
+                    backgroundColor: 'rgb(255, 99, 132)',
+                  }]
+                }
+              })
+  
+            </script>
+  
+  
+  
         </div>
         
            

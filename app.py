@@ -46,25 +46,28 @@ def quizresults():
         module = request.form.get("module")  #get the form data that has been submitted
         if not module:
                 return render_template('quizresults.html')  
-        print(module)
+      
 
 
-        marks_list = []
+        quizmarks_list = []
+        modulemarks_list = []
         for document in db.sdlc_records.find({},{ "_id": 0,"results": 1 }): #get the results from the sdlc collection with all the data
             results = document['results']
-            print(results)
             for result in results:
                 if result['module'] == module:
+                    quizmarks_list.append(result['quiz_mark'])  
+                    modulemarks_list.append(result['module_mark'])
+        
+        chart_data = [{ "x": quizmarks_list[i], "y": modulemarks_list[i]} for i in range(len(quizmarks_list))]
 
-                    marks_list.append(result['quiz_mark'])  
-                
+            
        
-        std_quiz = np.std(marks_list) 
+        std_quiz = round(np.std(quizmarks_list),1)
 
+    
+        average_marks = round(sum(quizmarks_list) / len(quizmarks_list))
         
-        average_marks = round(sum(marks_list) / len(marks_list))
-        
-        return render_template('quizresults.html',mean_results=average_marks,standard_deviation=round(std_quiz))
+        return render_template('quizresults.html',mean_results=average_marks,standard_deviation=std_quiz, data=chart_data)
     else:
         return redirect("/")
     
@@ -128,7 +131,7 @@ def signout():
 def updateexistingdata():
     if 'loggedIn' in session and session['loggedIn']:
         
-        print(request.files)
+      
         data = request.files['files2']
 
         
@@ -148,7 +151,7 @@ def updateexistingdata():
 def deletedata():
     if 'loggedIn' in session and session['loggedIn']:
         
-        print(request.files)
+    
         data = request.files['files3']
 
         
