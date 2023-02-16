@@ -75,14 +75,8 @@
               <div class="quiz-results-info">
                 <h4>Mean Quiz Results: {{ mean_results }}</h4>
                 <h4>Standard Deviation: {{ standard_deviation }}</h4>
-
-
-              </div>
-             
-
+              </div>  
             </div>
-
-
             <div style="height: 500px; padding-left: 100px; padding-top: 20px;">
               <canvas id="scatter" width="720" height="480" ></canvas>
             </div>
@@ -94,30 +88,18 @@
                 maintainAspectRatio: false,
                 data: {
                   datasets: [{
-                    label: "Module Marks and Quiz Results",
+                    label: "Module Marks (y-axis) and Quiz Results (x-axis)",
                     data: {{ data | safe }},
                     backgroundColor: 'rgb(255, 99, 132)',
                   }]
                 }
+               
+
               })
   
             </script>
-  
-  
-  
         </div>
-        
-           
-            
-            
-    
-        
-
-    </div>    
-
-    
-    
-
+    </div>   
 </body>
 
 </html>
