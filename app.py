@@ -97,17 +97,42 @@ def signout():
 @app.route('/updateexistingdata', methods=['POST'])
 def updateexistingdata():
     if 'loggedIn' in session and session['loggedIn']:
+        
         print(request.files)
         data = request.files['files2']
-        
+
         
         info = json.loads(data.read())
-       # matching_record = db.users_records.find_one({
-        #    "student_id" : info["student_id"]
-        #})
-        return info
-    else:
+
+        filter = { 'student_id': info['student_id'] }
+        
+        newvalues = info 
+        db.sdlc_records.replace_one(filter, newvalues)
+        
+        return "successfully updated existing data, please press back"
+    else:   
         return redirect("/")
+
+
+@app.route('/deletedata', methods=['POST'])
+def deletedata():
+    if 'loggedIn' in session and session['loggedIn']:
+        
+        print(request.files)
+        data = request.files['files3']
+
+        
+        info = json.loads(data.read())
+
+        filter = { 'student_id': info['student_id'] }
+        
+       
+        db.sdlc_records.delete_one(filter)
+        
+        return "successfully deleted data, please press back"
+    else:   
+        return redirect("/")
+
 
 
 

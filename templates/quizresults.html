@@ -24,7 +24,7 @@
 
               <form style="display: flex;" action={{ url_for('uploadnewdata') }} method="POST" enctype="multipart/form-data">
                 <label for="files" class="btn btn-primary me-1">Upload New Data</label>
-                <input id="files" style="visibility:hidden;width: 0;" type="file" name="file1"/>
+                <input id="files" style="visibility:hidden;width: 0;" type="file" name="file"/>
                 <input type="submit" class="btn btn-primary me-1" />
 
               </form>
@@ -35,15 +35,20 @@
                 <input type="submit" class="btn btn-primary me-1" />
               </form>
 
+              <form style="display: flex;" action={{ url_for('deletedata') }} method="POST" enctype="multipart/form-data">
+                <label for="files3" class="btn btn-primary me-1">Delete Data</label>
+                <input id="files3" style="visibility:hidden;width: 0;" type="file" name="files3">
+                <input type="submit" class="btn btn-primary me-1"  />
+              </form>
+
+
+
               <form style="display: flex;" action={{ url_for('viewdata') }} target="_blank" >
                 <input class="btn btn-primary me-1"  type="submit" value="View Raw Data">
               </form>
 
 
-              <form style="display: inline;">
-                <input class="btn btn-primary me-1" type="submit" value="Delete Data">
-              </form>
-
+           
 
 
 
@@ -63,6 +68,8 @@
                 </ul>
               </div>
             
+
+      
 
 
         </div>
