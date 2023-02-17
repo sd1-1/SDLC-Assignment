@@ -39,7 +39,7 @@ def quizresults():
         # get the form data that has been submitted
         module = request.form.get("module")
         if not module:
-            return render_template('quizresults.html')
+            return render_template('quizresults.html',selectedmodule="Select Module")
 
         quizmarks_list = []
         modulemarks_list = []
@@ -58,7 +58,7 @@ def quizresults():
 
         average_marks = round(sum(quizmarks_list) / len(quizmarks_list))
 
-        return render_template('quizresults.html', mean_results=average_marks, standard_deviation=std_quiz, data=chart_data)
+        return render_template('quizresults.html', mean_results=average_marks, standard_deviation=std_quiz, data=chart_data,selectedmodule=module)
     else:
         return redirect("/")
 
