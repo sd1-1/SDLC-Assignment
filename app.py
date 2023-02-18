@@ -1,10 +1,10 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, session
 from pymongo import MongoClient
 import json
 from bson.json_util import dumps
 from hashlib import sha256
 import numpy as np
-from user.models import User
+from user.user import User
 
 client = MongoClient(
     "mongodb+srv://sdlcadmin:Apples123@cluster0.euazjbc.mongodb.net/?retryWrites=true&w=majority")
@@ -65,7 +65,12 @@ def quizresults():
 
 @app.route('/login', methods=['POST'])
 def login():
-    return User.login()
+    email = request.form.get('useremail')
+    password = request.form.get('userpassword')
+    if User.login(email,password):
+        session['loggedIn'] = True
+        return redirect("/landing")
+    return redirect("/")
 
 
 @app.route('/viewdata')

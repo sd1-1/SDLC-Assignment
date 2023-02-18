@@ -10,20 +10,19 @@ db = client.get_database("sdlc_db")  # connection to database as the admin
 
 class User():
 
-    def login():
+    def login(email,password):
         matching_record = db.users_records.find_one({
-            "email": request.form.get("useremail")
+            "email": email
         })
 
         # hashing the password so it can be compared with the hash in the database
-        password_hash = sha256(request.form.get(
-            "userpassword").encode('utf-8')).hexdigest()
+        password_hash = sha256(password.encode('utf-8')).hexdigest()
 
         if matching_record and password_hash == matching_record["password"]:
 
-            session['loggedIn'] = True
-            return redirect("landing")
-        return redirect("/")
+            
+            return True
+        return False
 
     def signout():
         # change session status to false when the signout button is clicked
