@@ -6,10 +6,18 @@ import json
 from user.user import User
 import pytest
 
+
+
+
+
+@pytest.mark.parametrize("email,password,expected", [
+    ("admin@wmg.com","admin",True),
+    ("admin@wmg.com","wrongpassword", False),
+    ("wrongemail@wmg.com","admin", False),
+])
+
 #this tests the login functionality for a correct and incorrect combination
 
-def test_login():   
-    assert User.login("admin@wmg.com","admin") == True
+def test_login(email,password,expected):   
+    assert User.login(email,password) == expected
 
-def test_login_incorrect():
-    assert User.login("admin@wmg.com","wrongpassword") == False
