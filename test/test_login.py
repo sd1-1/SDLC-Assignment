@@ -6,5 +6,10 @@ import json
 from user.user import User
 import pytest
 
-def test_login():
+#this tests the login functionality for a correct and incorrect combination
+
+def test_login():   
     assert User.login("admin@wmg.com","admin") == True
+
+def test_login_incorrect():
+    assert User.login("admin@wmg.com","wrongpassword") == False
