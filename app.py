@@ -3,8 +3,8 @@ from pymongo import MongoClient
 import json
 from bson.json_util import dumps
 from hashlib import sha256
-import numpy as np
-from user.user import User
+
+from user.user import *
 
 client = MongoClient(
     "mongodb+srv://sdlcadmin:Apples123@cluster0.euazjbc.mongodb.net/?retryWrites=true&w=majority")
@@ -16,7 +16,7 @@ app.secret_key = "abc123"  # required for session and used to encrpyt the cookie
 
 @app.route('/')
 def index():
-    if User.loggedin():  # check whether user is already logged in using session
+    if loggedin():  # check whether user is already logged in using session
         return render_template('landing.html')
     else:
 
@@ -26,7 +26,7 @@ def index():
 
 @app.route('/landing')
 def landing():
-    if User.loggedin():
+    if loggedin():
         return render_template('landing.html')
     else:
         return redirect("/")
@@ -34,7 +34,7 @@ def landing():
 
 @app.route('/quizresults', methods=['POST', 'GET'])
 def quizresults():
-    if User.loggedin():
+    if loggedin():
 
         # get the form data that has been submitted
         module = request.form.get("module")
@@ -54,9 +54,9 @@ def quizresults():
         chart_data = [{"x": quizmarks_list[i], "y": modulemarks_list[i]} for i in range(
             len(quizmarks_list))]  # manipulate data in format to be able to be used in chart js
 
-        std_quiz = round(np.std(quizmarks_list), 1)
+        std_quiz = round(calculate_std_dev(quizmarks_list),1)
 
-        average_marks = round(sum(quizmarks_list) / len(quizmarks_list))
+        average_marks = round(calculate_mean(quizmarks_list))
 
         return render_template('quizresults.html', mean_results=average_marks, standard_deviation=std_quiz, data=chart_data,selectedmodule=module)
     else:
@@ -67,7 +67,7 @@ def quizresults():
 def login():
     email = request.form.get('useremail')
     password = request.form.get('userpassword')
-    if User.login(email,password):
+    if log_in(email,password):
         session['loggedIn'] = True
         return redirect("/landing")
     return redirect("/")
@@ -75,7 +75,7 @@ def login():
 
 @app.route('/viewdata')
 def viewdata():
-    if User.loggedin():
+    if loggedin():
         cursor = db.sdlc_records.find()  # gets all data in the sdlc_records collection
         list_cursor = list(cursor)
         json_data = dumps(list_cursor)
@@ -86,7 +86,7 @@ def viewdata():
 
 @app.route('/uploadnewdata', methods=['POST'])
 def uploadnewdata():
-    if User.loggedin():
+    if loggedin():
         data = request.files['file']
         info = json.loads(data.read())
         # delete everything before looping through each document and inserting it into the database
@@ -102,12 +102,12 @@ def uploadnewdata():
 
 @app.route('/signout')
 def signout():
-    return User.signout()
+    return sign_out()
 
 
 @app.route('/updateexistingdata', methods=['POST'])
 def updateexistingdata():
-    if User.loggedin():
+    if loggedin():
 
         data = request.files['files2']
         info = json.loads(data.read())
@@ -123,7 +123,7 @@ def updateexistingdata():
 
 @app.route('/deletedata', methods=['POST'])
 def deletedata():
-    if User.loggedin():
+    if loggedin():
 
         data = request.files['files3']
         info = json.loads(data.read())

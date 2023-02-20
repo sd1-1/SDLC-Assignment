@@ -1,11 +1,7 @@
-
 import sys
 sys.path.append("..")
-from flask import Flask
-import json
-from user.user import User
+from user.user import *
 import pytest
-
 
 
 
@@ -18,6 +14,6 @@ import pytest
 
 #this tests the login functionality for a correct and incorrect combination
 
-def test_login(email,password,expected):   
-    assert User.login(email,password) == expected
+def test_log_in(email,password,expected):   
+    assert log_in(email,password) == expected
 
