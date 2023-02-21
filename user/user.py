@@ -50,6 +50,3 @@ def calculate_std_dev(list): #this function calculates the standard deviation of
 
 
         
-a = hash_password("admin")
-
-print(a)
