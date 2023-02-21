@@ -7,7 +7,7 @@ import pytest
 
 
 @pytest.mark.parametrize("email,password,expected", [
-    ("admin@wmg.com","admin",True),
+    ("admin@wmg.com","admin123",True),
     ("admin@wmg.com","wrongpassword", False),
     ("wrongemail@wmg.com","admin", False),
 ])
