@@ -47,6 +47,3 @@ def calculate_std_dev(list): #this function calculates the standard deviation of
     sum_sq = sum(i * i for i in list)
     return (sum_sq / n - mean * mean) ** 0.5
 
-
-
-        

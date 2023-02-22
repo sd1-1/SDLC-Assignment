@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, session
+from flask import Flask, render_template, redirect, request, session,jsonify
 from pymongo import MongoClient
 import json
 from bson.json_util import dumps
@@ -79,7 +79,7 @@ def viewdata():
         cursor = db.sdlc_records.find()  # gets all data in the sdlc_records collection
         list_cursor = list(cursor)
         json_data = dumps(list_cursor)
-        return json_data
+        return json.loads(json_data)
     else:
         return redirect("/")
 
@@ -87,15 +87,48 @@ def viewdata():
 @app.route('/uploadnewdata', methods=['POST'])
 def uploadnewdata():
     if loggedin():
-        data = request.files['file']
-        info = json.loads(data.read())
-        # delete everything before looping through each document and inserting it into the database
-        db.sdlc_records.delete_many({})
-        for student_data in info:
-            db.sdlc_records.insert_one(
-                student_data
-            )
+       
+        student_id = int(request.form.get("student-id"))
+        module = request.form.get("module")
+        quiz_result = int(request.form.get("quiz-result"))
+        
+        modules = []
+
+
+     
+        
+
+        record = json.loads(dumps(db.sdlc_records.find_one({'student_id' : student_id})))
+
+        results = record["results"]
+       
+        for result in results:
+            modules.append(result["module"])
+
+        if module in modules:
+                return "Quiz data already exists for that module, press back"    
+       
+        new_results = {
+            "module": module,
+            "quiz_mark": int(quiz_result),
+            "module_mark": 0
+        }
+        results.append(new_results)
+        filter = {
+            "student_id": student_id
+        }
+        new_vals =    {
+            "$set": { "results": results }
+        }
+        # update results
+        db.sdlc_records.update_one(filter, new_vals)
+        
         return "Success"
+
+
+
+
+
     else:
         return redirect("/")
 
@@ -109,27 +142,76 @@ def signout():
 def updateexistingdata():
     if loggedin():
 
-        data = request.files['files2']
-        info = json.loads(data.read())
+        student_id = int(request.form.get("student-id"))
+        module = request.form.get("module")
+        quiz_result = int(request.form.get("quiz-result"))
+        
+        record = json.loads(dumps(db.sdlc_records.find_one({'student_id' : student_id})))
+        results = record["results"]
+        index_to_change = -1
+        prev = {}
+        # seach for result to change
+        for index, res in enumerate(results):
+            if res["module"] == module:
+                index_to_change = index
+                prev = res
 
-        # This enables us to update the matching document with the same student_id as inputted in the json
-        filter = {'student_id': info['student_id']}
-        newvalues = info
-        db.sdlc_records.replace_one(filter, newvalues)
-        return "Successfully updated existing data, please press back"
-    else:
-        return redirect("/")
-
+        if index_to_change == -1:
+            return "Didn't work, please press back and try"
+        
+        # update result by index
+        results[index_to_change] = {
+            "module": module,
+            "quiz_mark": int(quiz_result),
+            "module_mark": prev["module_mark"]
+        }
+        filter = {
+            "student_id": student_id
+        }
+        new_vals =    {
+            "$set": { "results": results }
+        }
+        # update results
+        db.sdlc_records.update_one(filter, new_vals)
+        
+        return "Success"
 
 @app.route('/deletedata', methods=['POST'])
 def deletedata():
     if loggedin():
+        student_id = int(request.form.get("student-id"))
+        module = request.form.get("module")
+        
+        record = json.loads(dumps(db.sdlc_records.find_one({'student_id' : student_id})))
+        results = record["results"]
+        index_to_delete = -1
+        prev = {}
+        # seach for result to delete
+        for index, res in enumerate(results):
+            if res["module"] == module:
+                index_to_delete = index
+               
 
-        data = request.files['files3']
-        info = json.loads(data.read())
-        filter = {'student_id': info['student_id']}
-        db.sdlc_records.delete_one(filter)
-        return "Successfully deleted data, please press back"
+        if index_to_delete == -1:
+            return "Didn't work, please press back and try"
+        
+     
+        
+        del results[index_to_delete]
+
+
+        filter = {
+            "student_id": student_id
+        }
+        new_vals =    {
+            "$set": { "results": results }
+        }
+
+        db.sdlc_records.update_one(filter, new_vals)
+        
+        return "Success"        
+
+       
     else:
         return redirect("/")
 
